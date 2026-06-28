@@ -38,6 +38,8 @@ For each newly-confirmed match:
 
 Preserve existing formatting, comments, and untouched entries in both files exactly as they are. Don't reorder, reformat, or touch any other part of these files.
 
+If `data/bracket.js` or `data/refs.js` changed, bump the cache-busting query param on the affected script tag(s) in `index.html` (e.g. `data/bracket.js?v=1` → `?v=2`). Browsers cache these files, so without bumping the version the site won't show updated results on a normal refresh.
+
 ## 4. Sanity-check before committing
 
 - Every key added to `RESULTS` must be a real `id` from `MATCHES`.
@@ -50,7 +52,7 @@ Preserve existing formatting, comments, and untouched entries in both files exac
 
 If `data/bracket.js` or `data/refs.js` changed:
 ```
-git add data/bracket.js data/refs.js
+git add data/bracket.js data/refs.js index.html
 git commit -m "Update results: <comma-separated list of match ids updated>"
 git push origin main
 ```
