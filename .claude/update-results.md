@@ -15,12 +15,18 @@ If there are no pending matches, stop here and report "no new results."
 ## 2. Look up and cross-check results
 
 For each pending match, search the web for the result:
-- **Primary source**: FIFA.com (official 2026 World Cup match center/results page).
-- **Confirming source**: ESPN.
+- **Primary source**: FIFA.com official match report or match statistics page.
+- **Confirming source**: ESPN match report or official match statistics.
 
 Only treat a result as confirmed if both sources agree on:
 - the winning team (a draw that went to penalties counts the penalty-shootout winner; a draw with no shootout — group stage only, shouldn't occur in this knockout bracket — should be skipped and flagged), and
 - any yellow/red cards issued, attributed to the correct referee by name.
+
+**Important:** When verifying cards:
+- Do NOT rely on a single summary claiming "only X cards were shown." Verify with multiple independent sources.
+- Search for official match statistics pages (ESPN stats, FotMob, official FIFA match center) that list all cards.
+- Be skeptical of any source making definitive "only" or "exactly" claims—cross-check them.
+- If a summary contradicts your other sources, do additional searches to resolve the discrepancy before accepting the data.
 
 If the two sources disagree, or the match hasn't been played yet, skip that match — do not guess, do not write partial data.
 
@@ -37,6 +43,7 @@ Preserve existing formatting, comments, and untouched entries in both files exac
 - Every key added to `RESULTS` must be a real `id` from `MATCHES`.
 - Every value added to `RESULTS` must match one of that match's two slots (resolved team names).
 - No `yellows` or `reds` value should ever decrease from its prior value.
+- Card counts: verify the number of yellows/reds matches what you found in at least two independent sources. If sources differ, do not commit until resolved.
 - If any check fails, revert that specific change rather than committing it.
 
 ## 5. Commit and push
