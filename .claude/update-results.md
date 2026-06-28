@@ -1,0 +1,55 @@
+# Playbook: update World Cup results & ref cards
+
+Run these steps in order against the repo at `/Users/rileyoneill/Projects/world-cup-site`.
+
+## 1. Identify pending matches
+
+Read `data/bracket.js`. For each entry in `MATCHES`, it's "pending" if:
+- its `id` is NOT already a key in `RESULTS`, AND
+- both of its `slots` are resolvable — either a literal team name, or `{ from: matchId }` where `matchId` already has a winner in `RESULTS`.
+
+Also read `data/refs.js` to see current `yellows`/`reds` per referee, so you know the baseline before adding any new cards.
+
+If there are no pending matches, stop here and report "no new results."
+
+## 2. Look up and cross-check results
+
+For each pending match, search the web for the result:
+- **Primary source**: FIFA.com (official 2026 World Cup match center/results page).
+- **Confirming source**: ESPN.
+
+Only treat a result as confirmed if both sources agree on:
+- the winning team (a draw that went to penalties counts the penalty-shootout winner; a draw with no shootout — group stage only, shouldn't occur in this knockout bracket — should be skipped and flagged), and
+- any yellow/red cards issued, attributed to the correct referee by name.
+
+If the two sources disagree, or the match hasn't been played yet, skip that match — do not guess, do not write partial data.
+
+## 3. Update the data files
+
+For each newly-confirmed match:
+- Add `RESULTS["<id>"] = "<Winning Team>";` to `data/bracket.js`, using the exact team name string as it appears in that match's `slots`.
+- For the referee who officiated, find their entry in `REFS` (`data/refs.js`) by `name` and increment `yellows`/`reds` by the cards issued in that match. If the referee isn't listed in `REFS` (e.g. an unlisted/undrafted official), skip the card update for that match — do not add a new row.
+
+Preserve existing formatting, comments, and untouched entries in both files exactly as they are. Don't reorder, reformat, or touch any other part of these files.
+
+## 4. Sanity-check before committing
+
+- Every key added to `RESULTS` must be a real `id` from `MATCHES`.
+- Every value added to `RESULTS` must match one of that match's two slots (resolved team names).
+- No `yellows` or `reds` value should ever decrease from its prior value.
+- If any check fails, revert that specific change rather than committing it.
+
+## 5. Commit and push
+
+If `data/bracket.js` or `data/refs.js` changed:
+```
+git add data/bracket.js data/refs.js
+git commit -m "Update results: <comma-separated list of match ids updated>"
+git push origin main
+```
+
+If nothing changed, do not commit anything.
+
+## 6. Report
+
+End with a short summary: which matches were newly confirmed and their winners, which referees got card updates, and whether anything was skipped due to source disagreement.

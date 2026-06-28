@@ -29,7 +29,7 @@ const TEAMS = [
   { name: "Australia", flag: "🇦🇺", drafter: "Didj" },
   { name: "Egypt", flag: "🇪🇬", drafter: "Tusa" },
   { name: "Argentina", flag: "🇦🇷", drafter: "Tusa" },
-  { name: "Cape Verde", flag: "🇨🇻", drafter: "Riley" },
+  { name: "Cape Verde", flag: "🇨🇻", drafter: "Tusa" },
   { name: "Colombia", flag: "🇨🇴", drafter: "Mo" },
   { name: "Ghana", flag: "🇬🇭", drafter: "Riley" },
 ];
