@@ -58,6 +58,9 @@ function renderBracket() {
     title.textContent = ROUND_LABELS[round];
     col.appendChild(title);
 
+    const matchesWrap = document.createElement("div");
+    matchesWrap.className = "round-matches";
+
     for (const match of roundMatches) {
       const box = document.createElement("div");
       box.className = "match-box";
@@ -94,9 +97,10 @@ function renderBracket() {
         box.appendChild(slotEl);
       });
 
-      col.appendChild(box);
+      matchesWrap.appendChild(box);
     }
 
+    col.appendChild(matchesWrap);
     el.appendChild(col);
   }
 }
