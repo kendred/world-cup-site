@@ -58,4 +58,6 @@ const MATCHES = [
 
 // Hand-edit this as results come in: matchId -> winning team name.
 // e.g. RESULTS["R32-01"] = "South Africa";
-const RESULTS = {};
+const RESULTS = {
+  "R32-01": "Canada",
+};
