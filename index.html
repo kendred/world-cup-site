@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>World Cup Draft Tracker</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>World Cup 2026 Draft Tracker</h1>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="teams">Team Draft</button>
+      <button class="tab-btn" data-tab="refs">Ref Draft</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tab-teams" class="tab-panel active">
+      <div class="teams-layout">
+        <div class="bracket" id="bracket"></div>
+        <div class="points-panel" id="points-panel"></div>
+      </div>
+    </section>
+
+    <section id="tab-refs" class="tab-panel">
+      <div class="refs-layout" id="refs-layout"></div>
+    </section>
+  </main>
+
+  <script src="data/teams.js"></script>
+  <script src="data/bracket.js"></script>
+  <script src="data/refs.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

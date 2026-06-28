@@ -1,0 +1,61 @@
+// Points awarded to a team's drafter for *winning* a match in that round.
+const ROUND_POINTS = { R32: 1, R16: 2, QF: 3, SF: 4, F: 5 };
+
+const ROUND_LABELS = {
+  R32: "Round of 32",
+  R16: "Round of 16",
+  QF: "Quarterfinal",
+  SF: "Semifinal",
+  F: "Final",
+};
+
+const ROUND_ORDER = ["R32", "R16", "QF", "SF", "F"];
+
+// Each match has two slots. A slot is either a literal team name (R32 only)
+// or { from: matchId } meaning "winner of that earlier match".
+const MATCHES = [
+  // Round of 32
+  { id: "R32-01", round: "R32", slots: ["South Africa", "Canada"] },
+  { id: "R32-02", round: "R32", slots: ["Brazil", "Japan"] },
+  { id: "R32-03", round: "R32", slots: ["Germany", "Paraguay"] },
+  { id: "R32-04", round: "R32", slots: ["Netherlands", "Morocco"] },
+  { id: "R32-05", round: "R32", slots: ["Ivory Coast", "Norway"] },
+  { id: "R32-06", round: "R32", slots: ["France", "Sweden"] },
+  { id: "R32-07", round: "R32", slots: ["Mexico", "Ecuador"] },
+  { id: "R32-08", round: "R32", slots: ["England", "DR Congo"] },
+  { id: "R32-09", round: "R32", slots: ["Belgium", "Senegal"] },
+  { id: "R32-10", round: "R32", slots: ["United States", "Bosnia and Herzegovina"] },
+  { id: "R32-11", round: "R32", slots: ["Spain", "Austria"] },
+  { id: "R32-12", round: "R32", slots: ["Portugal", "Croatia"] },
+  { id: "R32-13", round: "R32", slots: ["Switzerland", "Algeria"] },
+  { id: "R32-14", round: "R32", slots: ["Australia", "Egypt"] },
+  { id: "R32-15", round: "R32", slots: ["Argentina", "Cape Verde"] },
+  { id: "R32-16", round: "R32", slots: ["Colombia", "Ghana"] },
+
+  // Round of 16
+  { id: "R16-01", round: "R16", slots: [{ from: "R32-01" }, { from: "R32-04" }] },
+  { id: "R16-02", round: "R16", slots: [{ from: "R32-03" }, { from: "R32-06" }] },
+  { id: "R16-03", round: "R16", slots: [{ from: "R32-02" }, { from: "R32-05" }] },
+  { id: "R16-04", round: "R16", slots: [{ from: "R32-07" }, { from: "R32-08" }] },
+  { id: "R16-05", round: "R16", slots: [{ from: "R32-12" }, { from: "R32-11" }] },
+  { id: "R16-06", round: "R16", slots: [{ from: "R32-10" }, { from: "R32-09" }] },
+  { id: "R16-07", round: "R16", slots: [{ from: "R32-15" }, { from: "R32-14" }] },
+  { id: "R16-08", round: "R16", slots: [{ from: "R32-13" }, { from: "R32-16" }] },
+
+  // Quarterfinals
+  { id: "QF-01", round: "QF", slots: [{ from: "R16-01" }, { from: "R16-02" }] },
+  { id: "QF-02", round: "QF", slots: [{ from: "R16-05" }, { from: "R16-06" }] },
+  { id: "QF-03", round: "QF", slots: [{ from: "R16-03" }, { from: "R16-04" }] },
+  { id: "QF-04", round: "QF", slots: [{ from: "R16-07" }, { from: "R16-08" }] },
+
+  // Semifinals
+  { id: "SF-01", round: "SF", slots: [{ from: "QF-01" }, { from: "QF-02" }] },
+  { id: "SF-02", round: "SF", slots: [{ from: "QF-03" }, { from: "QF-04" }] },
+
+  // Final
+  { id: "F-01", round: "F", slots: [{ from: "SF-01" }, { from: "SF-02" }] },
+];
+
+// Hand-edit this as results come in: matchId -> winning team name.
+// e.g. RESULTS["R32-01"] = "South Africa";
+const RESULTS = {};
