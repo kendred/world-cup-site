@@ -169,11 +169,12 @@ main { padding: 20px; }
 
 .team-row .status {
   text-align: center;
-  min-width: 60px;
+  width: 50px;
 }
 
 .team-row > span:last-child {
   text-align: right;
+  min-width: 40px;
 }
 
 .team-row:last-child { border-bottom: none; }
