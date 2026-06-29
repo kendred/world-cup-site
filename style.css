@@ -115,14 +115,14 @@ main { padding: 20px; }
 
 .slot:last-child { border-bottom: none; }
 
-.slot.eliminated {
+.slot.eliminated .team-name {
   color: var(--dead);
   text-decoration: line-through;
 }
 
 .slot.winner { background: rgba(79, 209, 165, 0.12); }
 
-.slot .team-name { display: flex; align-items: center; gap: 6px; }
+.slot .team-name { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
 
 .slot .drafter {
   color: var(--muted);
@@ -159,7 +159,7 @@ main { padding: 20px; }
 
 .team-row {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr 50px 46px 32px 32px;
   align-items: center;
   gap: 8px;
   padding: 4px 0;
@@ -167,14 +167,14 @@ main { padding: 20px; }
   border-bottom: 1px solid var(--border);
 }
 
+.team-row .name { min-width: 0; }
+
 .team-row .status {
   text-align: center;
-  width: 50px;
 }
 
-.team-row > span:last-child {
+.team-row .pts {
   text-align: right;
-  min-width: 40px;
 }
 
 .team-row:last-child { border-bottom: none; }
@@ -187,6 +187,55 @@ main { padding: 20px; }
 .team-row .status {
   color: var(--muted);
   font-size: 0.75rem;
+}
+
+/* ---- Cards (mini-card icons) ---- */
+.mini-card {
+  display: inline-block;
+  width: 9px;
+  height: 13px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.mini-card.yellow { background: #f4c531; }
+.mini-card.red { background: #e0533d; }
+
+.card-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.8rem;
+}
+
+/* In the points table the Y/R cells are grid columns; nudge them readable. */
+.team-row .card-cell { justify-content: center; }
+.team-row .card-cell.zero { color: var(--muted); }
+.team-row .card-cell.zero .mini-card { opacity: 0.3; }
+
+.slot-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.slot-stats .stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.slot-stats .num { font-weight: 700; }
+.slot-stats .ball { font-size: 0.78rem; line-height: 1; }
+
+/* ---- Prize banner ---- */
+.prize-banner {
+  margin: 0 0 16px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* ---- Refs tab ---- */

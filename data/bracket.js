@@ -60,4 +60,20 @@ const MATCHES = [
 // e.g. RESULTS["R32-01"] = "South Africa";
 const RESULTS = {
   "R32-01": "Canada",
+  "R32-02": "Brazil",
+};
+
+// Per-match, per-team stats. goals = full-time score; yellows/reds = cards
+// that THIS team's players received in the match. Hand-edit as results come in.
+// Keep in sync with REFS: a match's two teams' card counts here must equal the
+// cards added to that match's referee in data/refs.js.
+const MATCH_STATS = {
+  "R32-01": {
+    "South Africa": { goals: 0, yellows: 0, reds: 0 },
+    "Canada":       { goals: 1, yellows: 2, reds: 0 },
+  },
+  "R32-02": {
+    "Brazil": { goals: 2, yellows: 2, reds: 0 },
+    "Japan":  { goals: 1, yellows: 3, reds: 0 },
+  },
 };

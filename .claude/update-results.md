@@ -34,7 +34,8 @@ If the two sources disagree, or the match hasn't been played yet, skip that matc
 
 For each newly-confirmed match:
 - Add `RESULTS["<id>"] = "<Winning Team>";` to `data/bracket.js`, using the exact team name string as it appears in that match's `slots`.
-- For the referee who officiated, find their entry in `REFS` (`data/refs.js`) by `name` and increment `yellows`/`reds` by the cards issued in that match. If the referee isn't listed in `REFS` (e.g. an unlisted/undrafted official), skip the card update for that match — do not add a new row.
+- Add a `MATCH_STATS["<id>"]` entry in `data/bracket.js` with both teams keyed by their exact slot names, each having `goals`, `yellows`, and `reds`. Cards must be attributed to the team whose player was booked — verify per-team attribution (the booked player's team), not just the match total. This drives the per-team "most cards" bet shown on the bracket and points panel.
+- For the referee who officiated, find their entry in `REFS` (`data/refs.js`) by `name` and increment `yellows`/`reds` by the cards issued in that match. If the referee isn't listed in `REFS` (e.g. an unlisted/undrafted official), skip the card update for that match — do not add a new row. (Even when the ref is unlisted, still record per-team cards in `MATCH_STATS`.)
 
 Preserve existing formatting, comments, and untouched entries in both files exactly as they are. Don't reorder, reformat, or touch any other part of these files.
 
@@ -46,6 +47,7 @@ If `data/bracket.js` or `data/refs.js` changed, bump the cache-busting query par
 - Every value added to `RESULTS` must match one of that match's two slots (resolved team names).
 - No `yellows` or `reds` value should ever decrease from its prior value.
 - Card counts: verify the number of yellows/reds matches what you found in at least two independent sources. If sources differ, do not commit until resolved.
+- Per-team card counts in `MATCH_STATS` for a match must sum to the cards added to that match's referee in `REFS` (when the ref is a listed one). If they don't reconcile, the per-team attribution is wrong — resolve before committing.
 - If any check fails, revert that specific change rather than committing it.
 
 ## 5. Commit and push
