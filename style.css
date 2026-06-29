@@ -196,6 +196,7 @@ main { padding: 20px; }
   height: 13px;
   border-radius: 2px;
   flex: none;
+  vertical-align: middle;
 }
 
 .mini-card.yellow { background: #f4c531; }
@@ -239,6 +240,37 @@ main { padding: 20px; }
 }
 
 /* ---- Refs tab ---- */
+.ref-leaderboard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  max-width: 420px;
+}
+
+.ref-leaderboard h3 { margin: 0 0 8px 0; font-size: 1rem; }
+
+.leaderboard-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+.leaderboard-table th, .leaderboard-table td {
+  text-align: left;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-table th:not(:nth-child(2)), .leaderboard-table td:not(:nth-child(2)) {
+  text-align: center;
+}
+
+.leaderboard-table tbody tr:last-child td { border-bottom: none; }
+
+.leaderboard-table .rank { color: var(--muted); width: 24px; }
+
+.leaderboard-table .pts { font-weight: 700; color: var(--accent); width: 44px; }
+
+.leaderboard-table tbody tr:first-child td { font-weight: 600; }
+
 .refs-layout {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

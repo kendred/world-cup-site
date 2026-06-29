@@ -202,6 +202,50 @@ function renderPointsPanel() {
   }
 }
 
+// ---- refs tab: drafter leaderboard ----
+// Sum each drafter's refs into one row, sorted by points (then reds, then name).
+function renderRefLeaderboard() {
+  const el = document.getElementById("ref-leaderboard");
+  if (!el) return;
+
+  const totals = DRAFTERS.map((drafter) => {
+    let yellows = 0, reds = 0;
+    for (const ref of REFS) {
+      if (ref.drafter === drafter) {
+        yellows += ref.yellows;
+        reds += ref.reds;
+      }
+    }
+    return { drafter, yellows, reds, points: yellows * 1 + reds * 3 };
+  }).sort(
+    (a, b) =>
+      b.points - a.points || b.reds - a.reds || a.drafter.localeCompare(b.drafter)
+  );
+
+  const rows = totals
+    .map(
+      (t, i) => `
+        <tr>
+          <td class="rank">${i + 1}</td>
+          <td>${t.drafter}</td>
+          <td>${t.yellows}</td>
+          <td>${t.reds}</td>
+          <td class="pts">${t.points}</td>
+        </tr>`
+    )
+    .join("");
+
+  el.innerHTML = `
+    <h3>Standings</h3>
+    <table class="leaderboard-table">
+      <thead>
+        <tr><th>#</th><th>Drafter</th><th><span class="mini-card yellow"></span></th><th><span class="mini-card red"></span></th><th>Pts</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
 // ---- refs tab rendering ----
 function renderRefs() {
   const el = document.getElementById("refs-layout");
@@ -234,7 +278,7 @@ function renderRefs() {
       <h3>${drafter}</h3>
       <table class="ref-table">
         <thead>
-          <tr><th>Ref</th><th>Y</th><th>R</th><th>Pts</th></tr>
+          <tr><th>Ref</th><th><span class="mini-card yellow"></span></th><th><span class="mini-card red"></span></th><th>Pts</th></tr>
         </thead>
         <tbody>${rows}</tbody>
         <tfoot>
@@ -263,4 +307,5 @@ function setupTabs() {
 setupTabs();
 renderBracket();
 renderPointsPanel();
+renderRefLeaderboard();
 renderRefs();
