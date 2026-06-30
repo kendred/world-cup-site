@@ -160,10 +160,8 @@ function renderPointsPanel() {
   const el = document.getElementById("points-panel");
   el.innerHTML = "";
 
-  for (const drafter of DRAFTERS) {
+  const drafterSummaries = DRAFTERS.map((drafter) => {
     const teams = TEAMS.filter((t) => t.drafter === drafter);
-    const card = document.createElement("div");
-    card.className = "drafter-card";
 
     let drafterTotal = 0;
     let drafterCardPoints = 0;
@@ -192,6 +190,17 @@ function renderPointsPanel() {
           </div>`;
       })
       .join("");
+
+    return { drafter, drafterTotal, drafterCardPoints, rows };
+  });
+
+  drafterSummaries.sort(
+    (a, b) => b.drafterTotal - a.drafterTotal || b.drafterCardPoints - a.drafterCardPoints
+  );
+
+  for (const { drafter, drafterTotal, drafterCardPoints, rows } of drafterSummaries) {
+    const card = document.createElement("div");
+    card.className = "drafter-card";
 
     card.innerHTML = `
       <h3><span>${drafter}</span><span class="total">${drafterTotal} pts &middot; ${drafterCardPoints} card pts</span></h3>
