@@ -84,13 +84,38 @@ function renderSlotStats(stats) {
   return html;
 }
 
+// Visual (bracket-sheet) order per round: matches are ordered so that any
+// two matches feeding the same later-round match are adjacent, recursively
+// from the Final back to the Round of 32. This lets a simple space-around
+// flex layout visually center each match between the two it descends from,
+// instead of the data's declaration order (which doesn't nest that way).
+function computeBracketOrder() {
+  const visualOrder = { F: [matchById["F-01"]] };
+  for (let i = ROUND_ORDER.length - 1; i > 0; i--) {
+    const round = ROUND_ORDER[i];
+    const prevRound = ROUND_ORDER[i - 1];
+    const prevOrder = [];
+    for (const m of visualOrder[round]) {
+      for (const slot of m.slots) {
+        if (slot && typeof slot === "object" && slot.from) {
+          prevOrder.push(matchById[slot.from]);
+        }
+      }
+    }
+    visualOrder[prevRound] = prevOrder;
+  }
+  return visualOrder;
+}
+
+const BRACKET_ORDER = computeBracketOrder();
+
 // ---- bracket rendering ----
 function renderBracket() {
   const el = document.getElementById("bracket");
   el.innerHTML = "";
 
   for (const round of ROUND_ORDER) {
-    const roundMatches = MATCHES.filter((m) => m.round === round);
+    const roundMatches = BRACKET_ORDER[round];
     const col = document.createElement("div");
     col.className = "bracket-round";
 
@@ -166,30 +191,34 @@ function renderPointsPanel() {
     let drafterTotal = 0;
     let drafterCardPoints = 0;
 
-    const rows = teams
-      .map((team) => {
-        const status = computeTeamStatus(team.name);
-        drafterTotal += status.points;
+    const teamRows = teams.map((team) => {
+      const status = computeTeamStatus(team.name);
+      drafterTotal += status.points;
 
-        const cards = teamCardTotals(team.name);
-        drafterCardPoints += cards.points;
+      const cards = teamCardTotals(team.name);
+      drafterCardPoints += cards.points;
 
-        const nameClass = "name" + (status.eliminatedInRound ? " eliminated" : "");
-        const statusText = status.eliminatedInRound
-          ? `Lost in ${ROUND_LABELS[status.eliminatedInRound]}`
-          : status.alive
-          ? "Alive"
-          : "";
+      const nameClass = "name" + (status.eliminatedInRound ? " eliminated" : "");
+      const statusText = status.eliminatedInRound
+        ? `Lost in ${ROUND_LABELS[status.eliminatedInRound]}`
+        : status.alive
+        ? "Alive"
+        : "";
 
-        return `
+      const html = `
           <div class="team-row">
             <span class="${nameClass}">${team.flag} ${team.name}</span>
             <span class="status">${statusText}</span>
             <span class="pts">${status.points} pt${status.points === 1 ? "" : "s"}</span>
             ${renderCards(cards.yellows, cards.reds, { showZero: true })}
           </div>`;
-      })
-      .join("");
+
+      return { html, eliminated: !!status.eliminatedInRound };
+    });
+
+    // Stable sort: still-alive teams first, eliminated teams sink to the bottom.
+    teamRows.sort((a, b) => a.eliminated - b.eliminated);
+    const rows = teamRows.map((r) => r.html).join("");
 
     return { drafter, drafterTotal, drafterCardPoints, rows };
   });
