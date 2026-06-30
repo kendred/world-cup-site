@@ -51,7 +51,7 @@ const REFS = [
   { name: "Mustapha Ghorbal", country: "Algeria", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Amin Omar", country: "Egypt", drafter: "Didj", yellows: 0, reds: 0 },
   { name: "Dahane Beida", country: "Mauritania", drafter: "Tusa", yellows: 0, reds: 0 },
-  { name: "Jalal Jayed", country: "Morocco", drafter: "Didj", yellows: 0, reds: 0 },
+  { name: "Jalal Jayed", country: "Morocco", drafter: "Didj", yellows: 4, reds: 0 },
   { name: "Pierre Atcho", country: "Gabon", drafter: null, yellows: 0, reds: 0 },
   { name: "Abongile Tom", country: "South Africa", drafter: null, yellows: 0, reds: 0 },
   { name: "Campbell-Kirk Kawana-Waugh", country: "New Zealand", drafter: null, yellows: 0, reds: 0 },
