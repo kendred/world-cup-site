@@ -18,7 +18,7 @@ const REFS = [
   { name: "José María Sánchez Martínez", country: "Spain", drafter: "Tusa", yellows: 0, reds: 0 },
   { name: "Irfan Peljto", country: "Bosnia and Herzegovina", drafter: "Mo", yellows: 0, reds: 0 },
   { name: "Raphael Claus", country: "Brazil", drafter: "Didj", yellows: 0, reds: 0 },
-  { name: "Wilton Sampaio", country: "Brazil", drafter: "Didj", yellows: 0, reds: 0 },
+  { name: "Wilton Sampaio", country: "Brazil", drafter: "Didj", yellows: 1, reds: 0 },
   { name: "Ramon Abatti", country: "Brazil", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Facundo Tello", country: "Argentina", drafter: "Didj", yellows: 0, reds: 0 },
   { name: "Yael Falcón", country: "Argentina", drafter: "Mo", yellows: 0, reds: 0 },
