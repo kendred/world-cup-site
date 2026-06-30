@@ -24,7 +24,7 @@ const REFS = [
   { name: "Yael Falcón", country: "Argentina", drafter: "Mo", yellows: 0, reds: 0 },
   { name: "Darío Herrera", country: "Argentina", drafter: "Riley", yellows: 0, reds: 0 },
   { name: "Andrés Rojas", country: "Colombia", drafter: "Tusa", yellows: 0, reds: 0 },
-  { name: "Jesús Valenzuela", country: "Venezuela", drafter: "Riley", yellows: 0, reds: 0 },
+  { name: "Jesús Valenzuela", country: "Venezuela", drafter: "Riley", yellows: 1, reds: 0 },
   { name: "Andrés Matonte", country: "Uruguay", drafter: "Mo", yellows: 0, reds: 0 },
   { name: "Gustavo Tejera", country: "Uruguay", drafter: "Riley", yellows: 0, reds: 0 },
   { name: "Cristián Garay", country: "Chile", drafter: "Aaron", yellows: 0, reds: 0 },
