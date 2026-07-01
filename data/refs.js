@@ -9,7 +9,7 @@ const REFS = [
   { name: "Felix Zwayer", country: "Germany", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Danny Makkelie", country: "Netherlands", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "István Kovács", country: "Romania", drafter: "Didj", yellows: 0, reds: 0 },
-  { name: "Slavko Vinčić", country: "Slovenia", drafter: "Aaron", yellows: 0, reds: 0 },
+  { name: "Slavko Vinčić", country: "Slovenia", drafter: "Aaron", yellows: 3, reds: 1 },
   { name: "Glenn Nyberg", country: "Sweden", drafter: "Mo", yellows: 0, reds: 0 },
   { name: "Sandro Schärer", country: "Switzerland", drafter: "Mo", yellows: 0, reds: 0 },
   { name: "Maurizio Mariani", country: "Italy", drafter: "Didj", yellows: 5, reds: 0 },
