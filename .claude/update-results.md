@@ -14,21 +14,48 @@ If there are no pending matches, stop here and report "no new results."
 
 ## 2. Look up and cross-check results
 
-For each pending match, search the web for the result:
-- **Primary source**: FIFA.com official match report or match statistics page.
-- **Confirming source**: ESPN match report or official match statistics.
+**Only use these confined sources.** They are all pre-approved in `.claude/settings.local.json`, so no run should ever trigger a permission prompt or touch an arbitrary domain discovered via web search. Do NOT open-endedly search the web for results — construct the URLs below directly.
 
-Only treat a result as confirmed if both sources agree on:
-- the winning team (a draw that went to penalties counts the penalty-shootout winner; a draw with no shootout — group stage only, shouldn't occur in this knockout bracket — should be skipped and flagged), and
-- any yellow/red cards issued, attributed to the correct referee by name.
+### 2a. Completion, score & winner — ESPN JSON API (primary, machine-readable)
 
-**Important:** When verifying cards:
-- Do NOT rely on a single summary claiming "only X cards were shown." Verify with multiple independent sources.
-- Search for official match statistics pages (ESPN stats, FotMob, official FIFA match center) that list all cards.
-- Be skeptical of any source making definitive "only" or "exactly" claims—cross-check them.
-- If a summary contradicts your other sources, do additional searches to resolve the discrepancy before accepting the data.
+The ESPN API returns structured JSON — parse it with `python3`, never through `WebFetch` (which summarizes and can hallucinate). For each date that has pending matches:
 
-If the two sources disagree, or the match hasn't been played yet, skip that match — do not guess, do not write partial data.
+```
+curl -s 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=YYYYMMDD'
+```
+
+For each event, read `competitions[0].status.type`:
+- Treat the match as playable only if `completed == true` (status name `STATUS_FULL_TIME`). If not completed, skip it — do not guess.
+
+Determine the result from `competitions[0].competitors[]`:
+- The advancing team is the one with `winner == true`. This is set correctly regardless of how the match was decided (regulation, extra time, or penalties), so use it as the authoritative winner.
+- `score` is the regulation/ET score; `shootoutScore` (when non-null) is the penalty tally. Record both to sanity-check.
+- Note each event's `id` — you need it for the match detail call below.
+
+### 2b. Cards & referee — ESPN match summary API
+
+For each completed event id:
+
+```
+curl -s 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=EVENTID'
+```
+
+Parse with `python3`:
+- Cards are in `keyEvents[]` where `type.text` contains `Card` (Yellow/Red). Each card event's `team.displayName` gives the **per-team attribution** needed for `MATCH_STATS`. (Player name in `athletesInvolved` is sometimes empty — that's fine; team attribution is what matters.)
+- The officiating referee is in `gameInfo.officials[]` with `position.displayName == "Referee"` — use `displayName` to match against `REFS`.
+- **Known ESPN name aliases** (ESPN display name → REFS name): "Adham Mohammad" → "Adham Makhadmeh" (Jordan).
+
+### 2c. Cross-check — FIFA.com (second canonical source)
+
+Confirm the ESPN API winner and card counts against the official FIFA match report/stats page via `WebFetch(domain:www.fifa.com)`. If the FIFA page isn't reachable, fall back to the ESPN match report at `WebFetch(domain:www.espn.com)` as the second source. (`www.cbssports.com` scoreboard is available as a completion-check fallback if the API is down.)
+
+### Confirmation rule
+
+Only treat a result as confirmed if the ESPN API and the second source agree on:
+- the winning team (a match decided on penalties counts the penalty-shootout winner, which `winner == true` already reflects), and
+- the yellow/red cards issued, attributed per team and to the correct referee by name.
+
+Be skeptical of any single source making definitive "only X cards" claims — reconcile the API `keyEvents` card list against the cross-check source. If the two sources disagree, or the match hasn't completed, skip that match — do not guess, do not write partial data.
 
 ## 3. Update the data files
 
