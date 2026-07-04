@@ -16,6 +16,8 @@ If there are no pending matches, stop here and report "no new results."
 
 **Only use these confined sources.** They are all pre-approved in `.claude/settings.local.json`, so no run should ever trigger a permission prompt or touch an arbitrary domain discovered via web search. Do NOT open-endedly search the web for results — construct the URLs below directly.
 
+**Permission-safe command style:** the pre-approved Bash rules are prefix matches on the literal command text. Issue one `curl -s 'https://site.api.espn.com/...'` per Bash call (optionally piped into `python3 -c`), with the URL in single quotes. Never wrap curl in a `for` loop or other shell construct — the command then starts with `for`, not `curl`, and will trigger a permission prompt.
+
 ### 2a. Completion, score & winner — ESPN JSON API (primary, machine-readable)
 
 The ESPN API returns structured JSON — parse it with `python3`, never through `WebFetch` (which summarizes and can hallucinate). For each date that has pending matches:
@@ -45,17 +47,25 @@ Parse with `python3`:
 - The officiating referee is in `gameInfo.officials[]` with `position.displayName == "Referee"` — use `displayName` to match against `REFS`.
 - **Known ESPN name aliases** (ESPN display name → REFS name): "Adham Mohammad" → "Adham Makhadmeh" (Jordan).
 
-### 2c. Cross-check — FIFA.com (second canonical source)
+### 2c. Cross-check
 
-Confirm the ESPN API winner and card counts against the official FIFA match report/stats page via `WebFetch(domain:www.fifa.com)`. If the FIFA page isn't reachable, fall back to the ESPN match report at `WebFetch(domain:www.espn.com)` as the second source. (`www.cbssports.com` scoreboard is available as a completion-check fallback if the API is down.)
+**FIFA.com and www.cbssports.com do not carry this tournament's data** — repeated checks (multiple matches, multiple runs) found `www.fifa.com` returns blank content (it's a JS-rendered SPA that WebFetch can't execute) and `www.cbssports.com` 404s for these event IDs. Don't spend a turn on either; they're kept in the allowlist only as a courtesy, not as an expected source.
+
+**Winner, score, referee — WebFetch(domain:www.espn.com)**: fetch the match page (`https://www.espn.com/soccer/match/_/gameId/EVENTID/...`) and ask for the final score, winner, and referee name. This has reliably returned real prose confirming the JSON API. Use it as the second source for these three facts.
+
+**Cards — cross-check within the ESPN API itself**, since no external source or WebFetch'd ESPN prose page (match, report, stats, or commentary) has ever rendered card details — they only exist in the two JSON endpoints. Compare:
+- `competitions[0].details[]` from the **scoreboard** call (2a) — filter entries where `yellowCard` or `redCard` is `true`, attributed by `team.id`.
+- `keyEvents[]` from the **summary** call (2b) — filter entries where `type.text` contains `Card`, attributed by `team.displayName`.
+
+These are two separate API responses; treat agreement between them as the cross-check for card counts and per-team attribution.
 
 ### Confirmation rule
 
-Only treat a result as confirmed if the ESPN API and the second source agree on:
-- the winning team (a match decided on penalties counts the penalty-shootout winner, which `winner == true` already reflects), and
-- the yellow/red cards issued, attributed per team and to the correct referee by name.
+Only treat a result as confirmed if:
+- the winning team is confirmed by both the ESPN API (`winner == true`) and the ESPN match-page WebFetch (a match decided on penalties counts the penalty-shootout winner, which `winner == true` already reflects), and
+- the yellow/red cards, attributed per team, agree between the scoreboard `details[]` list and the summary `keyEvents[]` list.
 
-Be skeptical of any single source making definitive "only X cards" claims — reconcile the API `keyEvents` card list against the cross-check source. If the two sources disagree, or the match hasn't completed, skip that match — do not guess, do not write partial data.
+Be skeptical of any single source making definitive "only X cards" claims. If the two card lists disagree, the match hasn't completed, or the ESPN match-page WebFetch contradicts the API on the winner, skip that match — do not guess, do not write partial data. If a card cross-check merely comes back empty (no data either way, e.g. from a WebFetch'd prose page), that isn't authoritative in either direction — don't treat it as a disagreement, but don't treat it as confirmation either; use the two-endpoint API comparison above instead.
 
 ## 3. Update the data files
 
