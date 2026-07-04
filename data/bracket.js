@@ -77,6 +77,7 @@ const RESULTS = {
   "R32-16": "Colombia",
 
   "R16-01": "Morocco",
+  "R16-02": "France",
 };
 
 // Per-match, per-team stats. goals = full-time score; yellows/reds = cards
@@ -152,5 +153,9 @@ const MATCH_STATS = {
   "R16-01": {
     "Morocco": { goals: 3, yellows: 4, reds: 0 },
     "Canada":  { goals: 0, yellows: 4, reds: 0 },
+  },
+  "R16-02": {
+    "Paraguay": { goals: 0, yellows: 0, reds: 0 },
+    "France":   { goals: 1, yellows: 3, reds: 0 },
   },
 };
