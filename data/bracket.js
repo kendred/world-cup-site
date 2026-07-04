@@ -73,6 +73,8 @@ const RESULTS = {
   "R32-12": "Portugal",
   "R32-13": "Switzerland",
   "R32-14": "Egypt",
+  "R32-15": "Argentina",
+  "R32-16": "Colombia",
 };
 
 // Per-match, per-team stats. goals = full-time score; yellows/reds = cards
@@ -135,5 +137,13 @@ const MATCH_STATS = {
   "R32-14": {
     "Australia": { goals: 1, yellows: 0, reds: 0 },
     "Egypt":     { goals: 1, yellows: 2, reds: 0 },
+  },
+  "R32-15": {
+    "Argentina":  { goals: 3, yellows: 1, reds: 0 },
+    "Cape Verde": { goals: 2, yellows: 1, reds: 0 },
+  },
+  "R32-16": {
+    "Colombia": { goals: 1, yellows: 2, reds: 0 },
+    "Ghana":    { goals: 0, yellows: 3, reds: 0 },
   },
 };
