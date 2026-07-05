@@ -213,11 +213,11 @@ function renderPointsPanel() {
             ${renderCards(cards.yellows, cards.reds, { showZero: true })}
           </div>`;
 
-      return { html, eliminated: !!status.eliminatedInRound };
+      return { html, points: status.points, name: team.name };
     });
 
-    // Stable sort: still-alive teams first, eliminated teams sink to the bottom.
-    teamRows.sort((a, b) => a.eliminated - b.eliminated);
+    // Most points first; alphabetical by team name on ties.
+    teamRows.sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
     const rows = teamRows.map((r) => r.html).join("");
 
     return { drafter, drafterTotal, drafterCardPoints, rows };
