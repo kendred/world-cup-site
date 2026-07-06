@@ -40,7 +40,7 @@ const REFS = [
   { name: "Drew Fischer", country: "Canada", drafter: "Mo", yellows: 2, reds: 0 },
   { name: "Juan Gabriel Calderón", country: "Costa Rica", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Oshane Nation", country: "Jamaica", drafter: "Riley", yellows: 0, reds: 0 },
-  { name: "Alireza Faghani", country: "Australia", drafter: "Riley", yellows: 0, reds: 0 },
+  { name: "Alireza Faghani", country: "Australia", drafter: "Riley", yellows: 6, reds: 1 },
   { name: "Ma Ning", country: "China", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Yusuke Araki", country: "Japan", drafter: "Didj", yellows: 0, reds: 0 },
   { name: "Adham Makhadmeh", country: "Jordan", drafter: "Tusa", yellows: 2, reds: 0 },
