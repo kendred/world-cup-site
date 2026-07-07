@@ -5,7 +5,7 @@ const REFS = [
   { name: "Michael Oliver", country: "England", drafter: "Riley", yellows: 8, reds: 0 },
   { name: "Anthony Taylor", country: "England", drafter: "Tusa", yellows: 3, reds: 0 },
   { name: "Clément Turpin", country: "France", drafter: "Riley", yellows: 5, reds: 0 },
-  { name: "François Letexier", country: "France", drafter: "Riley", yellows: 0, reds: 0 },
+  { name: "François Letexier", country: "France", drafter: "Riley", yellows: 4, reds: 0 },
   { name: "Felix Zwayer", country: "Germany", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Danny Makkelie", country: "Netherlands", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "István Kovács", country: "Romania", drafter: "Didj", yellows: 0, reds: 0 },
