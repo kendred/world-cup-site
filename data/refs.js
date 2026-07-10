@@ -2,7 +2,7 @@
 // Hand-edit `yellows`/`reds` as cards are shown.
 const REFS = [
   { name: "Szymon Marciniak", country: "Poland", drafter: "Tusa", yellows: 0, reds: 0 },
-  { name: "Michael Oliver", country: "England", drafter: "Riley", yellows: 8, reds: 0 },
+  { name: "Michael Oliver", country: "England", drafter: "Riley", yellows: 12, reds: 0 },
   { name: "Anthony Taylor", country: "England", drafter: "Tusa", yellows: 3, reds: 0 },
   { name: "Clément Turpin", country: "France", drafter: "Riley", yellows: 5, reds: 0 },
   { name: "François Letexier", country: "France", drafter: "Riley", yellows: 4, reds: 0 },
