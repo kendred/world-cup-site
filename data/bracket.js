@@ -89,6 +89,8 @@ const RESULTS = {
   "QF-02": "Spain",
   "QF-03": "England",
   "QF-04": "Argentina",
+
+  "SF-01": "Spain",
 };
 
 // Per-match, per-team stats. goals = full-time score; yellows/reds = cards
@@ -209,5 +211,10 @@ const MATCH_STATS = {
   "QF-04": {
     "Argentina":   { goals: 3, yellows: 3, reds: 0 },
     "Switzerland": { goals: 1, yellows: 1, reds: 1 },
+  },
+
+  "SF-01": {
+    "France": { goals: 0, yellows: 2, reds: 0 },
+    "Spain":  { goals: 2, yellows: 1, reds: 0 },
   },
 };
