@@ -30,7 +30,7 @@ const REFS = [
   { name: "Cristián Garay", country: "Chile", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Kevin Ortega", country: "Peru", drafter: "Didj", yellows: 0, reds: 0 },
   { name: "Juan Gabriel Benítez", country: "Paraguay", drafter: "Tusa", yellows: 0, reds: 0 },
-  { name: "Ismail Elfath", country: "USA", drafter: "Mo", yellows: 1, reds: 0 },
+  { name: "Ismail Elfath", country: "USA", drafter: "Mo", yellows: 5, reds: 0 },
   { name: "Tori Penso", country: "USA", drafter: "Riley", yellows: 0, reds: 0 },
   { name: "César Arturo Ramos", country: "Mexico", drafter: "Aaron", yellows: 0, reds: 0 },
   { name: "Katia Itzel García", country: "Mexico", drafter: "Mo", yellows: 0, reds: 0 },
